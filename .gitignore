@@ -1,0 +1,10 @@
+node_modules/
+.DS_Store
+npm-debug.log*
+
+hevy/hevy.config.json
+hevy/next-block-report*.json
+hevy/*.review.txt
+hevy/resolved-dry-run*.json
+
+routines/*.hevy-preview.json

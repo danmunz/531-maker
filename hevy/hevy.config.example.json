@@ -1,0 +1,27 @@
+{
+  "folderName": "5/3/1 - 2026-04-13 Block",
+  "mcpCommand": "npx",
+  "mcpArgs": ["-y", "hevy-mcp"],
+  "useRepRanges": false,
+  "weightRoundingKg": 0.001,
+  "requestDelayMs": 400,
+  "maxRetries": 4,
+  "retryBackoffMs": 1200,
+  "exerciseOverrides": {
+    "Squat": {
+      "query": "Squat (Barbell)",
+      "primaryMuscleGroup": "quadriceps"
+    },
+    "Deadlift": {
+      "query": "Deadlift (Barbell)"
+    },
+    "Overhead Press": {
+      "query": "Overhead Press (Barbell)",
+      "primaryMuscleGroup": "shoulders"
+    },
+    "Bench Press": {
+      "query": "Bench Press (Barbell)",
+      "primaryMuscleGroup": "chest"
+    }
+  }
+}

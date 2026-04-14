@@ -1,0 +1,21 @@
+{
+  "name": "531-maker-hevy-sync",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "hevy:preview": "tsx src/hevy-sync/cli.ts preview",
+    "hevy:sync": "tsx src/hevy-sync/cli.ts sync",
+    "hevy:verify": "tsx src/hevy-sync/cli.ts verify",
+    "hevy:next-block": "tsx src/hevy-sync/cli.ts next-block",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.29.0",
+    "zod": "^3.25.76"
+  },
+  "devDependencies": {
+    "@types/node": "^24.5.2",
+    "tsx": "^4.20.6",
+    "typescript": "^5.9.3"
+  }
+}
