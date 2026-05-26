@@ -40,6 +40,8 @@ const DEFAULT_CONFIG: Required<Pick<HevySyncConfig, "mcpCommand" | "mcpArgs" | "
   retryBackoffMs: 1200,
 };
 
+const MANAGED_BLOCK_FOLDER_PATTERN = /^5\/3\/1 - (\d{4}-\d{2}-\d{2}) Block$/;
+
 export function mergeConfig(config: HevySyncConfig): HevySyncConfig {
   return {
     ...DEFAULT_CONFIG,
@@ -48,6 +50,22 @@ export function mergeConfig(config: HevySyncConfig): HevySyncConfig {
       ...(config.exerciseOverrides ?? {}),
     },
   };
+}
+
+function resolveFolderName(document: ParsedRoutineDocument, config: HevySyncConfig): string {
+  const defaultFolderName = `5/3/1 - ${document.blockDate} Block`;
+  const configuredFolderName = config.folderName?.trim();
+
+  if (!configuredFolderName) {
+    return defaultFolderName;
+  }
+
+  const managedFolderMatch = configuredFolderName.match(MANAGED_BLOCK_FOLDER_PATTERN);
+  if (managedFolderMatch && managedFolderMatch[1] !== document.blockDate) {
+    return defaultFolderName;
+  }
+
+  return configuredFolderName;
 }
 
 function shortLiftLabel(name: string): string {
@@ -185,7 +203,7 @@ function convertExercise(exercise: ParsedExercise, config: HevySyncConfig): Hevy
 
 export function buildDraftRoutines(document: ParsedRoutineDocument, rawConfig: HevySyncConfig = {}): HevyDraftRoutine[] {
   const config = mergeConfig(rawConfig);
-  const folderName = config.folderName ?? `5/3/1 - ${document.blockDate} Block`;
+  const folderName = resolveFolderName(document, config);
 
   return document.sessions.map((session) => ({
     sourceWeek: session.week,

@@ -1,6 +1,8 @@
 node_modules/
 .DS_Store
 npm-debug.log*
+.env
+.env.local
 
 hevy/hevy.config.json
 hevy/next-block-report*.json

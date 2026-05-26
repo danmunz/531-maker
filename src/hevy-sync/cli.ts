@@ -13,6 +13,8 @@ import { buildDraftRoutines, mergeConfig } from "./payloads.js";
 import type { HevyDraftExercise, HevyDraftRoutine, HevySyncConfig, RepRange } from "./types.js";
 import { HevyWorkoutHistoryClient } from "./workout-history.js";
 
+const LOCAL_ENV_FILES = [".env", ".env.local"];
+
 interface PublishedRoutineSet {
   type?: string;
   weight_kg?: number | null;
@@ -35,6 +37,55 @@ interface PublishedRoutine {
 }
 
 const KILOGRAMS_PER_POUND = 0.45359237;
+
+function normalizeEnvValue(rawValue: string): string {
+  const trimmed = rawValue.trim();
+  if (
+    (trimmed.startsWith('"') && trimmed.endsWith('"')) ||
+    (trimmed.startsWith("'") && trimmed.endsWith("'"))
+  ) {
+    return trimmed.slice(1, -1);
+  }
+
+  return trimmed;
+}
+
+async function loadLocalEnv(): Promise<void> {
+  for (const fileName of LOCAL_ENV_FILES) {
+    const filePath = resolve(process.cwd(), fileName);
+    let raw: string;
+
+    try {
+      raw = await readFile(filePath, "utf8");
+    } catch (error) {
+      if ((error as NodeJS.ErrnoException).code === "ENOENT") {
+        continue;
+      }
+
+      throw error;
+    }
+
+    for (const line of raw.split(/\r?\n/u)) {
+      const trimmed = line.trim();
+      if (!trimmed || trimmed.startsWith("#")) {
+        continue;
+      }
+
+      const equalsIndex = trimmed.indexOf("=");
+      if (equalsIndex <= 0) {
+        continue;
+      }
+
+      const key = trimmed.slice(0, equalsIndex).trim();
+      if (!key || key in process.env) {
+        continue;
+      }
+
+      const rawValue = trimmed.slice(equalsIndex + 1);
+      process.env[key] = normalizeEnvValue(rawValue);
+    }
+  }
+}
 
 function nextBlockReviewPath(outputPath: string): string {
   if (outputPath.endsWith(".json")) {
@@ -458,6 +509,8 @@ async function sync(routinePath: string, config: HevySyncConfig, dryRun = false,
 }
 
 async function main(): Promise<void> {
+  await loadLocalEnv();
+
   const { command, positionals, flags } = parseArgs(process.argv.slice(2));
   const configPath = typeof flags.get("config") === "string" ? String(flags.get("config")) : undefined;
   const config = await loadConfig(configPath);

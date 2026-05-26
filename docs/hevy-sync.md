@@ -2,6 +2,8 @@
 
 This repo now includes a small TypeScript CLI for turning a generated 5/3/1 markdown routine into Hevy-compatible routine payloads and, when `HEVY_API_KEY` is present, syncing them through `hevy-mcp`.
 
+The CLI now auto-loads `.env` and `.env.local` from the repo root before reading `process.env`, so local secrets can stay in a gitignored file instead of being re-exported in every shell.
+
 ## Commands
 
 Install dependencies first:
@@ -20,6 +22,12 @@ Verify the published Hevy routines against the source markdown using the actual 
 
 ```bash
 HEVY_API_KEY=your_key_here npm run hevy:verify -- routines/2026-04-13.md --config hevy/hevy.config.example.json
+```
+
+Or place the key in a repo-local `.env` file once:
+
+```bash
+HEVY_API_KEY=your_key_here
 ```
 
 Build a dry-run report for the next block by checking Hevy workout history for a fully completed managed 5/3/1 block and proposing conservative 1RM bumps:
