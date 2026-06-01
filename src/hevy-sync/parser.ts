@@ -201,7 +201,7 @@ function parseAccessories(lines: string[], start: number): { accessories: Parsed
 export function parseRoutineMarkdown(content: string, sourcePath: string): ParsedRoutineDocument {
   const lines = content.split(/\r?\n/);
   const titleLine = lines[0]?.trim() ?? "";
-  const titleMatch = titleLine.match(/^# 5\/3\/1 Routine - (\d{4}-\d{2}-\d{2})$/);
+  const titleMatch = titleLine.match(/^# 5\/3\/1 Routine - (\d{4}-\d{2}-\d{2})(?: .+)?$/);
   if (!titleMatch) {
     throw new Error(`Could not parse routine title in ${basename(sourcePath)}`);
   }
