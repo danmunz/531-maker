@@ -77,6 +77,22 @@ Superset A
 Accessory B
 - [Accessory 2a] - [sets] x [reps]
 
+### Day 4
+
+Main Lift 1
+- [Lift] 5/3/1 - [set 1], [set 2], [set 3]
+
+Main Lift 2
+- [Lift] FSL [5x5 or 3x5] - [percentage] ([weight])
+
+Accessories
+Superset A
+- [Accessory 1a] - [sets] x [reps]
+- [Accessory 1b] - [sets] x [reps]
+
+Accessory B
+- [Accessory 2a] - [sets] x [reps]
+
 ## Week 2
 
 ### Day 1
@@ -112,6 +128,22 @@ Accessory B
 - [Accessory 2a] - [sets] x [reps]
 
 ### Day 3
+
+Main Lift 1
+- [Lift] 5/3/1 - [set 1], [set 2], [set 3]
+
+Main Lift 2
+- [Lift] FSL [5x5 or 3x5] - [percentage] ([weight])
+
+Accessories
+Superset A
+- [Accessory 1a] - [sets] x [reps]
+- [Accessory 1b] - [sets] x [reps]
+
+Accessory B
+- [Accessory 2a] - [sets] x [reps]
+
+### Day 4
 
 Main Lift 1
 - [Lift] 5/3/1 - [set 1], [set 2], [set 3]
@@ -177,6 +209,22 @@ Superset A
 Accessory B
 - [Accessory 2a] - [sets] x [reps]
 
+### Day 4
+
+Main Lift 1
+- [Lift] 5/3/1 - [set 1], [set 2], [set 3]
+
+Main Lift 2
+- [Lift] FSL [5x5 or 3x5] - [percentage] ([weight])
+
+Accessories
+Superset A
+- [Accessory 1a] - [sets] x [reps]
+- [Accessory 1b] - [sets] x [reps]
+
+Accessory B
+- [Accessory 2a] - [sets] x [reps]
+
 ## Week 4
 
 ### Day 1
@@ -204,6 +252,18 @@ Accessories
 - [Accessory 2a] - [sets] x [reps]
 
 ### Day 3
+
+Main Lift 1
+- [Lift] 5/3/1 - [set 1], [set 2], [set 3]
+
+Main Lift 2
+- [Lift] FSL [5x5 or 3x5] - [percentage] ([weight])
+
+Accessories
+- [Accessory 1a] - [sets] x [reps]
+- [Accessory 2a] - [sets] x [reps]
+
+### Day 4
 
 Main Lift 1
 - [Lift] 5/3/1 - [set 1], [set 2], [set 3]
