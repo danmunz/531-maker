@@ -104,7 +104,7 @@ Use it to format the final output as:
 - A routine overview table using the same columns and order as structure.csv.
 - A muscle-group frequency table.
 - Four week sections.
-- Three day sections inside each week.
+- Four day sections inside each week.
 - Main Lift 1, Main Lift 2, and Accessories blocks for each day.
 - Normal weeks with one explicit paired superset plus one standalone accessory.
 - Deload week with only two standalone assistance movements.
@@ -249,10 +249,10 @@ Across a four-week block, repeated day types should keep the same accessory patt
 
 Use day archetypes based on the main-lift pairing:
 
-- Squat 5/3/1 + Overhead Press FSL: 1 pull, 1 triceps movement, 1 core-or-lower movement.
-- Deadlift 5/3/1 + Bench Press FSL: 1 pull, 1 chest push, 1 core movement.
-- Overhead Press 5/3/1 + Squat FSL: 1 pull, 1 triceps-or-shoulder movement, 1 core-or-lower movement.
-- Bench Press 5/3/1 + Deadlift FSL: 1 pull, 1 chest push, 1 core movement.
+- Squat 5/3/1 + Bench Press FSL: 1 pull, 1 triceps-or-arms movement (avoid extra chest, Bench FSL covers it), 1 core-or-lower movement.
+- Overhead Press 5/3/1 + Deadlift FSL: 1 pull, 1 triceps-or-shoulder movement, 1 core-or-lower movement.
+- Bench Press 5/3/1 + Squat FSL: 1 pull, 1 chest push, 1 core movement.
+- Deadlift 5/3/1 + Overhead Press FSL: 1 pull, 1 triceps-or-shoulder movement (to complement the OHP FSL), 1 core movement.
 - Deload week for all day types: 1 pull and 1 core-or-light-lower movement only.
 
 For each archetype:
@@ -373,28 +373,35 @@ Before finalizing a routine, verify:
 
 ## Example Decision Pattern
 
-For a row like `Deadlift 5/3/1` plus `Bench Press FSL 5x5`:
+For a row like `Squat 5/3/1` plus `Bench Press FSL 5x5`:
 
-- Treat it as lower-body heavy with additional pressing volume.
-- Use 1 pull, 1 chest push, and 1 core movement in normal weeks.
-- Avoid Romanian Deadlift, Dumbbell Deadlift, Kettlebell Swing, and usually Back Extension.
-- Favor choices such as Lat Pulldown (Cable) or Seated Row (Machine), plus Incline Chest Press (Machine) or Incline Bench Press (Dumbbell), plus Cable Crunch or Hanging Knee Raise.
+- Treat it as lower-body heavy with additional pressing volume from the Bench FSL secondary.
+- Use 1 pull, 1 triceps-or-arms movement (not a chest push, since Bench FSL already covers chest), and 1 core or single-leg/hamstring movement in normal weeks.
+- Avoid extra bilateral leg fatigue on top of the squat primary.
+- Favor choices such as Lat Pulldown (Cable) or Seated Row (Machine), plus Triceps Rope Pushdown or Triceps Extension (Dumbbell), plus Cable Crunch, Hanging Knee Raise, or Seated Leg Curl (Machine).
 
-For a row like `Bench Press 5/3/1` plus `Deadlift FSL 3x5`:
+For a row like `Overhead Press 5/3/1` plus `Deadlift FSL 3x5`:
+
+- Treat it as OHP-primary upper-body work with lighter lower-body fatigue from the Deadlift FSL secondary.
+- Use 1 pull, 1 triceps-or-shoulder movement, and 1 core or light lower-body movement in normal weeks.
+- Avoid extra heavy posterior-chain loading on top of the Deadlift FSL.
+- Favor choices such as Pull Up (Assisted) or Lat Pulldown (Cable), plus Triceps Extension (Dumbbell) or Lateral Raise (Dumbbell), plus Hanging Knee Raise, Cable Crunch, or Seated Leg Curl (Machine).
+
+For a row like `Bench Press 5/3/1` plus `Squat FSL 5x5`:
 
 - Treat it as Bench Press-primary upper-body work with lower-body fatigue from the secondary lift.
 - Use 1 pull, 1 chest push, and 1 core movement.
 - Favor choices such as Lat Pulldown (Cable) or Pull Up (Assisted), plus Incline Bench Press (Dumbbell) or Incline Chest Press (Machine), plus Cable Crunch or Hanging Knee Raise.
 - Across repeated bench-primary days in the same block, rotate the chest accessory rather than repeating the same one each time.
 
-For a row like `Overhead Press 5/3/1` plus `Squat FSL 5x5`:
+For a row like `Deadlift 5/3/1` plus `Overhead Press FSL 5x5`:
 
-- Treat it as mixed, with overhead pressing plus lower-body fatigue.
-- Use 1 pull, 1 triceps-or-shoulder movement, and 1 core-or-lower movement.
-- Prefer triceps work or lateral raise in the middle slot, and hanging knee raise, cable crunch, seated leg curl, or lunge in the final slot.
-- Be conservative with extra quad or posterior-chain fatigue.
+- Treat it as lower-body heavy with additional pressing volume from the OHP FSL secondary.
+- Use 1 pull, 1 triceps-or-shoulder movement (to complement the OHP FSL), and 1 core movement in normal weeks.
+- Avoid extra heavy posterior-chain or lower-back loading on top of the deadlift primary.
+- Favor choices such as Seated Row (Machine) or Lat Pulldown (Cable), plus Triceps Rope Pushdown or Lateral Raise (Dumbbell), plus Cable Crunch or Hanging Knee Raise.
 
-For repeated squat-primary or Overhead Press-primary days:
+For repeated instances of the same day archetype across weeks:
 
 - Keep the same role structure and rotate only inside the small approved pools.
 - Avoid unnecessary extra variation.

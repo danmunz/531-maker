@@ -38,7 +38,7 @@ The current implementation supports:
 Top-level files and folders:
 
 - `1rms.csv`: source 1RMs in pounds
-- `structure.csv`: the 12-session week/day skeleton
+- `structure.csv`: the 16-session week/day skeleton
 - `rules.md`: hard selection rules for accessories
 - `accessories.csv`: ranked accessory pool
 - `routines/`: generated routine markdown files
@@ -68,7 +68,7 @@ Each row is one training session and includes:
 - main lift 2
 - accessory placeholders
 
-The current structure is a fixed 12-session block across 4 weeks.
+The current structure is a fixed 16-session block across 4 weeks.
 
 ### `1rms.csv`
 
