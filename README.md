@@ -64,8 +64,7 @@ Each row is one training session and includes:
 
 - week
 - day
-- main lift 1
-- main lift 2
+- main lift
 - accessory placeholders
 
 The current structure is a fixed 16-session block across 4 weeks.
@@ -112,14 +111,9 @@ Training max is calculated as:
 - Week 3: `75% x 5, 85% x 3, 95% x 1+`
 - Week 4: `40% x 5, 50% x 5, 60% x 5`
 
-### Secondary Work
+### Session Shape
 
-`FSL` means First Set Last.
-
-Supported variants in this repo:
-
-- `FSL 5x5`
-- `FSL 3x5`
+Each session is one main 5/3/1 lift followed by two supersets of accessories (Superset A and Superset B, two exercises each). There is no secondary main lift. Deload week collapses to a single superset.
 
 ### Weight Rounding
 
@@ -163,13 +157,13 @@ Each managed block is published into a folder named:
 
 Each published routine uses a short deterministic title:
 
-`W[week]D[day]: [Main Lift 1 Short]/[Main Lift 2 Short]`
+`W[week]D[day]: [Main Lift Short]`
 
 Examples:
 
-- `W1D1: Squat/OHP`
-- `W1D2: Deadlift/Bench`
-- `W3D1: OHP/Squat`
+- `W1D1: Squat`
+- `W1D2: OHP`
+- `W3D4: Deadlift`
 
 This naming matters for two reasons:
 

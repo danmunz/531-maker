@@ -108,8 +108,8 @@ function buildWeightStorageNote(rounding: number): string {
   return `Hevy payload weights are stored in kg rounded to the configured ${rounding} kg increment.`;
 }
 
-function routineTitle(document: ParsedRoutineDocument, week: number, day: number, main1: string, main2: string, config: HevySyncConfig): string {
-  const shortTitle = `W${week}D${day}: ${shortLiftLabel(main1)}/${shortLiftLabel(main2)}`;
+function routineTitle(document: ParsedRoutineDocument, week: number, day: number, mainLift: string, config: HevySyncConfig): string {
+  const shortTitle = `W${week}D${day}: ${shortLiftLabel(mainLift)}`;
   if (config.titlePrefix) {
     return `${config.titlePrefix} ${shortTitle}`;
   }
@@ -212,15 +212,13 @@ export function buildDraftRoutines(document: ParsedRoutineDocument, rawConfig: H
       document,
       session.week,
       session.day,
-      session.mainLift1.name,
-      session.mainLift2.name,
+      session.mainLift.name,
       config,
     ),
     notes: buildRoutineNotes(document, session.week, session.day),
     folderName,
     exercises: [
-      convertExercise(session.mainLift1, config),
-      convertExercise(session.mainLift2, config),
+      convertExercise(session.mainLift, config),
       ...session.accessories.map((exercise) => convertExercise(exercise, config)),
     ],
   }));

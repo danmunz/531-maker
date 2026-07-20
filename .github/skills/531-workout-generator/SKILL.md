@@ -1,6 +1,6 @@
 ---
 name: 531-workout-generator
-description: "Use when generating a Jim Wendler 5/3/1 four-week workout routine from the local 1rms.csv, structure.csv, rules.md, and accessories.csv files, including training max calculations, FSL prescriptions, accessory selection, and dated markdown output in /routines."
+description: "Use when generating a Jim Wendler 5/3/1 four-week workout routine from the local 1rms.csv, structure.csv, rules.md, and accessories.csv files, including training max calculations, accessory selection, and dated markdown output in /routines."
 ---
 
 # 5/3/1 Workout Generator
@@ -15,10 +15,10 @@ Produce a routine file in /routines that:
 - Starts with a summary section above Week 1.
 - Includes stable sync naming metadata for folder and routine titles.
 - Uses simpler, repeatable assistance slots.
-- Expands each training day into concrete 5/3/1 and FSL prescriptions with weights.
+- Expands each training day into one concrete 5/3/1 prescription with weights.
 - Fills accessory slots with lifts chosen from accessories.csv.
 - Assigns exact accessory sets and rep ranges.
-- States explicitly which accessories are paired as supersets when a superset is used.
+- States explicitly which accessories are paired as supersets.
 - Applies the constraints in rules.md before using preference scores.
 - Names the file with an ISO date: YYYY-MM-DD.md.
 
@@ -37,7 +37,7 @@ After the source files are resolved, read template.md and use it as the output l
 
 Use each file for a different purpose:
 
-- structure.csv: the session skeleton, week/day order, and main-lift pairings.
+- structure.csv: the session skeleton, week/day order, and the main lift per day.
 - 1rms.csv: the maxes used to compute training maxes and work-set loads.
 - rules.md: the hard constraints and tie-breakers for accessory selection.
 - accessories.csv: the allowed accessory pool and preference ranking.
@@ -55,9 +55,7 @@ Use standard Jim Wendler 5/3/1 logic unless the user overrides it:
   - Week 2: 70% x 3, 80% x 3, 90% x 3+
   - Week 3: 75% x 5, 85% x 3, 95% x 1+
   - Week 4: 40% x 5, 50% x 5, 60% x 5
-- FSL means First Set Last: use the first work-set percentage from that week.
-- FSL 5x5: 5 sets of 5 at the first-set percentage.
-- FSL 3x5: 3 sets of 5 at the first-set percentage.
+- Each day has exactly one main lift — no secondary lift work.
 - Round weights to the nearest 5 lb unless the user says to use a different increment.
 
 Lift-name mapping for this workspace:
@@ -83,8 +81,7 @@ Open structure.csv and preserve the week/day order exactly:
 
 - Week
 - Day
-- Main Lift 1
-- Main Lift 2
+- Main Lift
 - Accessory 1a
 - Accessory 1b
 - Accessory 2a
@@ -105,9 +102,9 @@ Use it to format the final output as:
 - A muscle-group frequency table.
 - Four week sections.
 - Four day sections inside each week.
-- Main Lift 1, Main Lift 2, and Accessories blocks for each day.
-- Normal weeks with one explicit paired superset plus one standalone accessory.
-- Deload week with only two standalone assistance movements.
+- Main Lift and Accessories blocks for each day.
+- Normal weeks with two paired supersets (Superset A and Superset B).
+- Deload week with one paired superset only.
 
 Do not improvise a different layout unless the user asks for one.
 
@@ -138,9 +135,9 @@ Sync naming requirements:
 - Add a short `Sync Naming` subsection near the top of the summary.
 - Use the routine file date as the block date for naming.
 - Set the folder name to: `5/3/1 - YYYY-MM-DD Block`
-- Define the routine title format as: `W[week]D[day]: [Main Lift 1 Short]/[Main Lift 2 Short]`
+- Define the routine title format as: `W[week]D[day]: [Main Lift Short]`
 - Use concise short lift labels in titles: `Squat`, `Deadlift`, `Bench`, and `OHP`.
-- For example, use titles such as `W1D2: Deadlift/Bench` or `W3D1: OHP/Squat`.
+- For example, use titles such as `W1D2: OHP` or `W3D4: Deadlift`.
 - Keep the naming deterministic so a future sync process can create or update the same app routines without ambiguity.
 
 Routine overview table requirements:
@@ -148,14 +145,13 @@ Routine overview table requirements:
 - Use the same column order as structure.csv:
   - Week
   - Day
-  - Main Lift 1
-  - Main Lift 2
+  - Main Lift
   - Accessory 1a
   - Accessory 1b
   - Accessory 2a
   - Accessory 2b
 - In the overview table, use the concise day labels rather than full set-by-set prescriptions.
-- Main lift labels should stay in the style of structure.csv, for example `Squat 5/3/1` or `Overhead Press FSL 5x5`.
+- Main lift labels should stay in the style of structure.csv, for example `Squat 5/3/1`.
 - Accessory cells should contain only exercise names, not sets and reps.
 
 Muscle-group frequency table requirements:
@@ -175,42 +171,37 @@ Muscle-group frequency table requirements:
   - Total Exposures: count each main-lift slot and each accessory slot that targets that group.
 - If a group has no direct programmed work, show it as zero rather than omitting it.
 
-### 3. Expand Main Lift Prescriptions
+### 3. Expand The Main Lift Prescription
 
 For every row in structure.csv:
 
 - Parse the current week number.
-- Identify the main lift in Main Lift 1.
-- Identify whether Main Lift 2 is FSL 5x5 or FSL 3x5.
+- Identify the main lift.
 - Compute the week-specific loads from the lift TM.
 - Replace generic placeholders with concrete prescriptions.
 
 Preferred line format inside each day section:
 
-- Main Lift 1: `- Squat 5/3/1 - 65%x5 (120), 75%x5 (140), 85%x5+ (155)`
-- Main Lift 2: `- Overhead Press FSL 5x5 - 65% (70)`
+- `- Squat 5/3/1 - 65%x5 (120), 75%x5 (140), 85%x5+ (155)`
 
-Keep the lift names readable and consistent. Include the rep target and rounded load in each main-lift line.
+Keep the lift name readable and consistent. Include the rep target and rounded load in each main-lift line.
 
 ### 4. Determine The Day's Accessory Needs
 
-Before reading scores, classify the session from its main lifts.
+Before reading scores, classify the session from its main lift.
 
 Use these heuristics:
 
-- Any day with Squat or Deadlift is lower-body influenced.
-- Any day with Bench Press or Overhead Press is upper-body influenced.
+- A day with Squat or Deadlift is lower-body focused.
+- A day with Bench Press or Overhead Press is upper-body focused.
 - Bench Press is chest-focused pressing; Overhead Press is overhead shoulder-focused pressing.
-- If both main lifts are upper-body presses, pulling volume must be at least equal to push volume.
-- For normal weeks, default to exactly three assistance movements: 1 pull, 1 push-or-arms, and 1 core-or-lower movement.
-- If Bench Press is the primary 5/3/1 lift, make the push-or-arms slot a chest push by default.
-- If Bench Press appears only as secondary FSL on a lower-body-heavy day, the push-or-arms slot may be a low-fatigue chest push only after pulling and recovery needs are covered.
-- If Overhead Press appears, bias at least one accessory toward upper back, lats, or rear/side delt support, and do not treat Overhead Press itself as chest work.
-- If Deadlift appears, avoid extra heavy posterior-chain fatigue.
-- If Squat appears, avoid piling on more heavy bilateral leg work.
-- If the day is lower-body heavy overall, make the third slot core or lighter single-leg/hamstring work.
-- If the day is Overhead Press-focused, make the push-or-arms slot triceps or shoulder-balance work.
-- In deload week, reduce assistance to 2 movements total: 1 pull and 1 core or light lower-body movement.
+- For normal weeks, default to exactly two supersets of two: Superset A (1 pull + 1 push-or-arms) and Superset B (1 core-or-single-leg/hamstring + 1 complementary lower-body or core movement).
+- If Bench Press is the main lift, make the push-or-arms slot in Superset A a chest push by default.
+- If Overhead Press is the main lift, bias the push-or-arms slot in Superset A toward triceps or shoulder-balance work, and consider extra upper-back or rear-delt support.
+- If Deadlift is the main lift, avoid extra heavy posterior-chain fatigue in Superset B.
+- If Squat is the main lift, avoid piling on more heavy bilateral leg work in Superset B.
+- If the day is lower-body heavy, make Superset B core plus a lighter single-leg/hamstring movement.
+- In deload week, reduce assistance to 1 superset only: 1 pull and 1 core or light lower-body movement.
 
 ### 5. Apply Rules Before Scores
 
@@ -223,7 +214,7 @@ Practical interpretation for this exercise pool:
 - Bench Press-day chest push rotation: Incline Bench Press (Dumbbell), Incline Chest Press (Machine).
 - Core rotation: Cable Crunch, Hanging Knee Raise.
 - Lower-body assistance rotation: Lunge, Seated Leg Curl (Machine).
-- Use caution with fatigue-heavy accessories: Romanian Deadlift (Barbell), Deadlift (Dumbbell), Kettlebell Swing, Bent Over Row (Barbell), Back Extension (Machine) on deadlift-heavy days.
+- Use caution with fatigue-heavy accessories: Romanian Deadlift (Barbell), Deadlift (Dumbbell), Kettlebell Swing, Bent Over Row (Barbell), Back Extension (Machine) on deadlift days.
 - Use caution with extra bilateral leg fatigue on squat days: Leg Press (Machine), Goblet Squat, Kettlebell Goblet Squat, Leg Extension (Machine).
 
 Reject accessories that clearly violate the day constraints even if they have a high combined_score.
@@ -235,8 +226,8 @@ After filtering by rules, use accessories.csv to rank candidates.
 Ranking priority:
 
 1. Fits the rules.md constraints for that session.
-2. Supports the main lifts or fills a missing movement pattern.
-3. Fits the day's fixed assistance slots: 1 pull, 1 push-or-arms, 1 core-or-lower.
+2. Supports the main lift or fills a missing movement pattern.
+3. Fits the day's fixed slots: Superset A (pull + push-or-arms), Superset B (core-or-single-leg/hamstring + complementary movement).
 4. Preserves push/pull balance.
 5. Higher combined_score.
 6. Higher like score as final tie-breaker.
@@ -247,13 +238,13 @@ Avoid selecting the same accessory twice in one day. Prefer some variety across 
 
 Across a four-week block, repeated day types should keep the same accessory pattern but rotate the specific exercise choices.
 
-Use day archetypes based on the main-lift pairing:
+Use day archetypes based on the main lift:
 
-- Squat 5/3/1 + Bench Press FSL: 1 pull, 1 triceps-or-arms movement (avoid extra chest, Bench FSL covers it), 1 core-or-lower movement.
-- Overhead Press 5/3/1 + Deadlift FSL: 1 pull, 1 triceps-or-shoulder movement, 1 core-or-lower movement.
-- Bench Press 5/3/1 + Squat FSL: 1 pull, 1 chest push, 1 core movement.
-- Deadlift 5/3/1 + Overhead Press FSL: 1 pull, 1 triceps-or-shoulder movement (to complement the OHP FSL), 1 core movement.
-- Deload week for all day types: 1 pull and 1 core-or-light-lower movement only.
+- Squat day: Superset A = 1 pull + 1 triceps-or-arms movement; Superset B = 1 core movement + 1 light single-leg/hamstring movement.
+- Overhead Press day: Superset A = 1 pull + 1 triceps-or-shoulder movement; Superset B = 1 core movement + 1 light lower-body movement.
+- Bench Press day: Superset A = 1 pull + 1 chest push; Superset B = 1 core movement + 1 second pull or arms movement.
+- Deadlift day: Superset A = 1 pull + 1 triceps-or-shoulder movement; Superset B = 1 core movement (avoid extra posterior-chain loading) + 1 light lower-body movement.
+- Deload week for all day types: 1 pull and 1 core-or-light-lower movement only, as a single superset.
 
 For each archetype:
 
@@ -267,35 +258,21 @@ When choosing between two similarly good candidates, prefer the one that has bee
 
 ### 7. Fill The Accessory Slots
 
-For normal weeks, use three accessory movements.
+For normal weeks, use four accessory movements in two supersets.
 
 Populate the structure-style slots like this:
 
-- Accessory 1a: pull
-- Accessory 1b: push or arms
-- Accessory 2a: core or single-leg/hamstring
-- Accessory 2b: leave blank
+- Accessory 1a: pull (Superset A)
+- Accessory 1b: push or arms (Superset A)
+- Accessory 2a: core or single-leg/hamstring (Superset B)
+- Accessory 2b: complementary lower-body, core, or second pull/arms movement (Superset B)
 
-For deload week, use only two assistance movements:
+For deload week, use only two assistance movements as a single superset:
 
-- Accessory 1a: pull
+- Accessory 1a: pull (Superset A)
 - Accessory 1b: leave blank
-- Accessory 2a: core or light lower-body movement
+- Accessory 2a: core or light lower-body movement (Superset A)
 - Accessory 2b: leave blank
-
-Recommended slot pattern:
-
-- Accessory 1a: pull
-- Accessory 1b: push or arms
-- Accessory 2a: core or lower-body support
-- Accessory 2b: blank by default
-
-A good default distribution is:
-
-- Lower-body heavy day: 1 pull, 1 triceps-or-chest slot if pressing is present, and 1 core-or-lower slot.
-- Bench Press-primary upper-body day: 1 pull, 1 chest push, and 1 core movement.
-- Overhead Press-primary upper-body day: 1 pull, 1 triceps-or-shoulder slot, and 1 core-or-lower movement.
-- Deload week: 1 pull and 1 core-or-light-lower movement only.
 
 If the available pool makes the target slot pattern a poor fit for that day, keep the rule quality high rather than forcing a bad pick. Leaving a slot blank is better than violating recovery logic, but only do that as a last resort.
 
@@ -325,10 +302,10 @@ For normal weeks, format the accessory section as:
 
 - `Superset A`
 - two accessory lines: pull plus push-or-arms
-- `Accessory B`
-- one standalone line: core or lower-body support
+- `Superset B`
+- two accessory lines: core-or-single-leg/hamstring plus a complementary movement
 
-For deload week, format the accessory section as two standalone movements with no second superset required.
+For deload week, format the accessory section as a single `Superset A` with two easy movements: pull plus core-or-light-lower.
 
 ## Output Contract
 
@@ -359,46 +336,49 @@ Before finalizing a routine, verify:
 - The sync naming section is present and uses the routine date consistently.
 - The muscle-group frequency table uses the documented main-lift mapping and accessory categories.
 - Back and Shoulders are summarized separately.
-- Every main lift uses the correct TM and week percentage.
+- The main lift uses the correct TM and week percentage.
 - Overhead Press rows use the OHP max from 1rms.csv.
-- FSL uses the first-set percentage from the same week.
 - Deadlift days do not include extra heavy posterior-chain loading unless the user explicitly wants it.
 - Bench Press and Overhead Press days include enough pulling work.
 - Lower-body heavy days include core or single-leg/hamstring work.
 - Accessory names exactly match accessories.csv entries.
 - Every accessory includes sets and reps.
 - The assistance pattern is repeatable and easy to track.
-- Deload week uses only two easier assistance movements per day.
+- Normal weeks use exactly two supersets of two accessories each.
+- Deload week uses only one superset of two easier assistance movements per day.
 - The file is saved in /routines with a date-based .md filename.
 
 ## Example Decision Pattern
 
-For a row like `Squat 5/3/1` plus `Bench Press FSL 5x5`:
+For a `Squat 5/3/1` day:
 
-- Treat it as lower-body heavy with additional pressing volume from the Bench FSL secondary.
-- Use 1 pull, 1 triceps-or-arms movement (not a chest push, since Bench FSL already covers chest), and 1 core or single-leg/hamstring movement in normal weeks.
-- Avoid extra bilateral leg fatigue on top of the squat primary.
-- Favor choices such as Lat Pulldown (Cable) or Seated Row (Machine), plus Triceps Rope Pushdown or Triceps Extension (Dumbbell), plus Cable Crunch, Hanging Knee Raise, or Seated Leg Curl (Machine).
+- Treat it as lower-body heavy.
+- Superset A: 1 pull and 1 triceps-or-arms movement.
+- Superset B: 1 core movement and 1 light single-leg/hamstring movement.
+- Avoid extra bilateral leg fatigue.
+- Favor choices such as Lat Pulldown (Cable) or Seated Row (Machine), plus Triceps Rope Pushdown or Triceps Extension (Dumbbell), plus Cable Crunch or Hanging Knee Raise, plus Seated Leg Curl (Machine).
 
-For a row like `Overhead Press 5/3/1` plus `Deadlift FSL 3x5`:
+For an `Overhead Press 5/3/1` day:
 
-- Treat it as OHP-primary upper-body work with lighter lower-body fatigue from the Deadlift FSL secondary.
-- Use 1 pull, 1 triceps-or-shoulder movement, and 1 core or light lower-body movement in normal weeks.
-- Avoid extra heavy posterior-chain loading on top of the Deadlift FSL.
-- Favor choices such as Pull Up (Assisted) or Lat Pulldown (Cable), plus Triceps Extension (Dumbbell) or Lateral Raise (Dumbbell), plus Hanging Knee Raise, Cable Crunch, or Seated Leg Curl (Machine).
+- Treat it as OHP-primary upper-body work.
+- Superset A: 1 pull and 1 triceps-or-shoulder movement.
+- Superset B: 1 core movement and 1 light lower-body movement.
+- Favor choices such as Pull Up (Assisted) or Lat Pulldown (Cable), plus Triceps Extension (Dumbbell) or Lateral Raise (Dumbbell), plus Hanging Knee Raise or Cable Crunch, plus Seated Leg Curl (Machine) or Lunge.
 
-For a row like `Bench Press 5/3/1` plus `Squat FSL 5x5`:
+For a `Bench Press 5/3/1` day:
 
-- Treat it as Bench Press-primary upper-body work with lower-body fatigue from the secondary lift.
-- Use 1 pull, 1 chest push, and 1 core movement.
-- Favor choices such as Lat Pulldown (Cable) or Pull Up (Assisted), plus Incline Bench Press (Dumbbell) or Incline Chest Press (Machine), plus Cable Crunch or Hanging Knee Raise.
-- Across repeated bench-primary days in the same block, rotate the chest accessory rather than repeating the same one each time.
+- Treat it as Bench Press-primary upper-body work.
+- Superset A: 1 pull and 1 chest push.
+- Superset B: 1 core movement and 1 second pull-or-arms movement.
+- Favor choices such as Lat Pulldown (Cable) or Pull Up (Assisted), plus Incline Bench Press (Dumbbell) or Incline Chest Press (Machine), plus Cable Crunch or Hanging Knee Raise, plus a second pull or arms movement.
+- Across repeated bench days in the same block, rotate the chest accessory rather than repeating the same one each time.
 
-For a row like `Deadlift 5/3/1` plus `Overhead Press FSL 5x5`:
+For a `Deadlift 5/3/1` day:
 
-- Treat it as lower-body heavy with additional pressing volume from the OHP FSL secondary.
-- Use 1 pull, 1 triceps-or-shoulder movement (to complement the OHP FSL), and 1 core movement in normal weeks.
-- Avoid extra heavy posterior-chain or lower-back loading on top of the deadlift primary.
+- Treat it as lower-body heavy.
+- Superset A: 1 pull and 1 triceps-or-shoulder movement.
+- Superset B: 1 core movement and 1 light lower-body movement.
+- Avoid extra heavy posterior-chain or lower-back loading.
 - Favor choices such as Seated Row (Machine) or Lat Pulldown (Cable), plus Triceps Rope Pushdown or Lateral Raise (Dumbbell), plus Cable Crunch or Hanging Knee Raise.
 
 For repeated instances of the same day archetype across weeks:

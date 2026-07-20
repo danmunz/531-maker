@@ -17,7 +17,7 @@ export interface ParsedSet {
 export interface ParsedExercise {
   name: string;
   rawLine: string;
-  role: "main1" | "main2" | "accessory";
+  role: "main" | "accessory";
   notes: string[];
   sets: ParsedSet[];
   supersetGroup?: number;
@@ -27,8 +27,7 @@ export interface ParsedExercise {
 export interface ParsedSession {
   week: number;
   day: number;
-  mainLift1: ParsedExercise;
-  mainLift2: ParsedExercise;
+  mainLift: ParsedExercise;
   accessories: ParsedExercise[];
 }
 

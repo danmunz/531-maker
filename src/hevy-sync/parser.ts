@@ -19,10 +19,10 @@ function nextNonEmpty(lines: string[], start: number): string {
   throw new Error(`Expected non-empty line after index ${start}`);
 }
 
-function parseMainLiftOne(rawLine: string): ParsedExercise {
+function parseMainLift(rawLine: string): ParsedExercise {
   const match = rawLine.match(/^- (.+?) 5\/3\/1 - (.+)$/);
   if (!match) {
-    throw new Error(`Could not parse main lift 1 line: ${rawLine}`);
+    throw new Error(`Could not parse main lift line: ${rawLine}`);
   }
 
   const [, name, prescription] = match;
@@ -49,33 +49,10 @@ function parseMainLiftOne(rawLine: string): ParsedExercise {
   return {
     name,
     rawLine,
-    role: "main1",
+    role: "main",
     notes,
     restSeconds: 180,
     sets: setMatches,
-  };
-}
-
-function parseMainLiftTwo(rawLine: string): ParsedExercise {
-  const match = rawLine.match(/^- (.+?) FSL (\d+)x(\d+) - (\d+)% \((\d+(?:\.\d+)?)\)$/);
-  if (!match) {
-    throw new Error(`Could not parse main lift 2 line: ${rawLine}`);
-  }
-
-  const [, name, setCount, reps, percent, weightLb] = match;
-  const sets = Array.from({ length: Number(setCount) }, () => ({
-    type: "normal" as const,
-    reps: Number(reps),
-    weightLb: Number(weightLb),
-  }));
-
-  return {
-    name,
-    rawLine,
-    role: "main2",
-    notes: [rawLine.slice(2), `FSL work at ${percent}% TM.`],
-    restSeconds: 150,
-    sets,
   };
 }
 
@@ -177,8 +154,8 @@ function parseAccessories(lines: string[], start: number): { accessories: Parsed
       continue;
     }
 
-    if (trimmed === "Accessory B") {
-      supersetGroup = undefined;
+    if (trimmed === "Superset B") {
+      supersetGroup = 2;
       index += 1;
       continue;
     }
@@ -209,8 +186,7 @@ export function parseRoutineMarkdown(content: string, sourcePath: string): Parse
   const sessions: ParsedSession[] = [];
   let currentWeek: number | undefined;
   let currentDay: number | undefined;
-  let mainLift1: ParsedExercise | undefined;
-  let mainLift2: ParsedExercise | undefined;
+  let mainLift: ParsedExercise | undefined;
 
   for (let index = 0; index < lines.length; index += 1) {
     const trimmed = lines[index]?.trim() ?? "";
@@ -227,23 +203,17 @@ export function parseRoutineMarkdown(content: string, sourcePath: string): Parse
     const dayMatch = trimmed.match(/^### Day (\d+)$/);
     if (dayMatch) {
       currentDay = Number(dayMatch[1]);
-      mainLift1 = undefined;
-      mainLift2 = undefined;
+      mainLift = undefined;
       continue;
     }
 
-    if (trimmed === "Main Lift 1") {
-      mainLift1 = parseMainLiftOne(nextNonEmpty(lines, index + 1));
-      continue;
-    }
-
-    if (trimmed === "Main Lift 2") {
-      mainLift2 = parseMainLiftTwo(nextNonEmpty(lines, index + 1));
+    if (trimmed === "Main Lift") {
+      mainLift = parseMainLift(nextNonEmpty(lines, index + 1));
       continue;
     }
 
     if (trimmed === "Accessories") {
-      if (currentWeek == null || currentDay == null || !mainLift1 || !mainLift2) {
+      if (currentWeek == null || currentDay == null || !mainLift) {
         throw new Error(`Missing day context before accessories at line ${index + 1}`);
       }
 
@@ -251,8 +221,7 @@ export function parseRoutineMarkdown(content: string, sourcePath: string): Parse
       sessions.push({
         week: currentWeek,
         day: currentDay,
-        mainLift1,
-        mainLift2,
+        mainLift,
         accessories,
       });
       index = endIndex - 1;
